@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour {
             
         }
 		
-		rigidbody2D.velocity = new Vector2(h * maxSpeed, rigidbody2D.velocity.y);
+		GetComponent<Rigidbody2D>().velocity = new Vector2(h * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
         //if (h > 0 && !facingRight)
         //    Flip();
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			// Set the Jump animator trigger parameter.
 			// Add a vertical force to the player.
-			rigidbody2D.AddForce(new Vector2(0f, jumpForce));
+			GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
 
 			jump = false;
 		}
@@ -156,12 +156,12 @@ public class PlayerController : MonoBehaviour {
 	void Spawn()
 	{
 		transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
-		rigidbody2D.velocity = new Vector3();
+		GetComponent<Rigidbody2D>().velocity = new Vector3();
 		transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;	
 		GetComponent<SpriteRenderer>().color = Color.white;
 		
 		bMovementAllowed = true;
-		rigidbody2D.gravityScale = 1;
+		GetComponent<Rigidbody2D>().gravityScale = 1;
 		circCollider.enabled = true;
 		foreach(Transform part in particles)
 		{
@@ -197,15 +197,15 @@ public class PlayerController : MonoBehaviour {
 	public void DeathAnimation()
 	{
 		bMovementAllowed = false;
-		rigidbody2D.gravityScale = 0;
+		GetComponent<Rigidbody2D>().gravityScale = 0;
 		foreach(Transform part in particles)
 		{
-			part.rigidbody2D.gravityScale = 0;
+			part.GetComponent<Rigidbody2D>().gravityScale = 0;
 		}
 		if(deathTimer < DeathColorChangeTime)
 		{
 			morphColor();
-			rigidbody2D.velocity = new Vector2();
+			GetComponent<Rigidbody2D>().velocity = new Vector2();
 		}
 		if(deathTimer > DeathColorChangeTime &&
 			deathTimer < deathMoveTimer + DeathColorChangeTime)

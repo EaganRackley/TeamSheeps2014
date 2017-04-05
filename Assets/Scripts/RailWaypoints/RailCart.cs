@@ -51,7 +51,7 @@ public class RailCart : MonoBehaviour
 			m_RailCartActivated = true;
 			m_RailCartFinished = false;
 			m_PlayerObject = other.gameObject;
-			m_Velocity = other.gameObject.rigidbody2D.velocity.magnitude;
+			m_Velocity = other.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude;
 		}
 	}
 

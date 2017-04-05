@@ -57,7 +57,7 @@ public class WeightedGateScript : MonoBehaviour
 				ColliderC.isTrigger = true;
 				ColliderD.isTrigger = true;
 				if (playedCollapseSound == false) {
-					transform.GetComponentsInChildren<AudioSource>()[0].audio.Play();
+					transform.GetComponentsInChildren<AudioSource>()[0].GetComponent<AudioSource>().Play();
 					playedCollapseSound = true;
 				}
 			}
