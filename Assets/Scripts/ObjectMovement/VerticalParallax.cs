@@ -14,6 +14,7 @@ public class VerticalParallax : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+        if (CameraObject == null) CameraObject = FindObjectOfType<SmoothCamera2D>();
 		m_Enabled = Enabled;
 		m_CameraOffset = CameraOffset;
 		m_StartingPosition = this.transform.position;

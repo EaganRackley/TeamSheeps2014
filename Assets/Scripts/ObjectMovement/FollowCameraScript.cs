@@ -9,6 +9,12 @@ public class FollowCameraScript : MonoBehaviour{
 	public bool ChangeSize = false;
 
 	private Vector3 m_BaseSize;
+    private bool m_ChangedSize = false;
+
+    void Start()
+    {
+        m_ChangedSize = false;
+    }
 
 	void EnableFollow()
 	{
@@ -28,11 +34,12 @@ public class FollowCameraScript : MonoBehaviour{
 			pos.z = this.transform.position.z;
 			this.transform.position = pos;	
 
-			if ( (ChangeSize) && (myCameraTransform.camera.orthographicSize + (m_BaseSize.x * 3.0f) != this.transform.localScale.x) )
+			if ( (ChangeSize) && (!m_ChangedSize) )
 			{
-				Vector3 scale = this.transform.localScale;
-				scale.x = myCameraTransform.camera.orthographicSize + (m_BaseSize.x * 3.0f);
-				scale.y = myCameraTransform.camera.orthographicSize + (m_BaseSize.y * 3.0f);
+                m_ChangedSize = true;
+                Vector3 scale = this.transform.localScale;
+				scale.x = myCameraTransform.GetComponent<Camera>().orthographicSize + (m_BaseSize.x * 3.0f);
+				scale.y = myCameraTransform.GetComponent<Camera>().orthographicSize + (m_BaseSize.y * 3.0f);
 				this.transform.localScale = scale;
 			}
 		}

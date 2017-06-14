@@ -13,7 +13,7 @@ public class AssignRandomGravity : MonoBehaviour {
 	public void SetRandomGravity()
 	{
 		float randomNumber = Random.Range (0.25f, 1.0f);
-		this.rigidbody2D.gravityScale = randomNumber;
+		this.GetComponent<Rigidbody2D>().gravityScale = randomNumber;
 		m_GravitySet = true;
 	}
 
