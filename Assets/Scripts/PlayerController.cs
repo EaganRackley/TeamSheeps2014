@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour {
 	public bool jump = false;				// Condition for whether the player should jump.
 
     public float minSize = 0.5f;
-    public float maxSize = 1.4f;
-    public float sizeChangeDelta = .1f;
+    public float maxSize = 0.7f;
+    public float sizeChangeDelta = 0.0f;//.1f;
 
 	public float deathSize = 2.3f;
 	public bool deathState = false;
@@ -76,12 +76,14 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetButtonDown("Jump") && grounded)
 			jump = true;
-        if (Input.GetButton("Run"))
-            Shrink();
-        else
-            Grow();
-		
-		if(Input.GetKeyDown(KeyCode.Backspace))
+
+        Shrink();
+        //if (Input.GetButton("Run"))
+        //    Shrink();
+        //else
+        //    Grow();
+        //
+        if (Input.GetKeyDown(KeyCode.Backspace))
 		{
 			Spawn();
 		}
@@ -94,23 +96,33 @@ public class PlayerController : MonoBehaviour {
             
 		if (!bMovementAllowed)
 			return;
-		
-		float h = Input.GetAxis("Horizontal");
 
-        if (Input.GetButton("Run"))
-        {
-            h *= runMultiplyer;
-            
+        float h = 0f;
+        if(grounded)
+        { 
+            if(SystemInfo.supportsAccelerometer)
+            {
+                h = Input.acceleration.x * 2f;
+                GetComponent<Rigidbody2D>().velocity = new Vector2(h * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+            }
+            else
+            {
+                h = Input.GetAxis("Horizontal");
+                if (Input.GetButton("Run"))
+                {
+                    h *= runMultiplyer;
+
+                }
+                GetComponent<Rigidbody2D>().velocity = new Vector2(h * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+            }
         }
-		
-		GetComponent<Rigidbody2D>().velocity = new Vector2(h * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
         //if (h > 0 && !facingRight)
         //    Flip();
         //else if (h < 0 && facingRight)
         //    Flip();
 
-		if (jump)
+        if (jump)
 		{
 			// Set the Jump animator trigger parameter.
 			// Add a vertical force to the player.
@@ -155,7 +167,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void Spawn()
 	{
-		transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
+		transform.localScale = new Vector3(0.6f, 0.6f, 0.0f);
 		GetComponent<Rigidbody2D>().velocity = new Vector3();
 		transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;	
 		GetComponent<SpriteRenderer>().color = Color.white;
